@@ -1,0 +1,333 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.app{min-height:600px;background:var(--surface-0);color:var(--text-primary)}
+.page{display:none;padding:1.5rem}
+.page.active{display:block}
+.teal{color:#0F6E56}
+.btn-teal{background:#1D9E75;color:#fff;border:none;padding:10px 22px;border-radius:var(--radius);cursor:pointer;font-size:15px;font-weight:500;transition:background .15s}
+.btn-teal:hover{background:#0F6E56}
+.btn-outline{background:transparent;color:#1D9E75;border:1.5px solid #1D9E75;padding:10px 22px;border-radius:var(--radius);cursor:pointer;font-size:15px;font-weight:500;transition:all .15s}
+.btn-outline:hover{background:#E1F5EE}
+.btn-ghost{background:transparent;border:0.5px solid var(--border);color:var(--text-secondary);padding:8px 16px;border-radius:var(--radius);cursor:pointer;font-size:14px}
+.btn-ghost:hover{background:var(--surface-1)}
+.card{background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:1.25rem}
+.input{width:100%;padding:9px 12px;border:0.5px solid var(--border-strong);border-radius:var(--radius);font-size:14px;background:var(--surface-2);color:var(--text-primary);outline:none}
+.input:focus{border-color:#1D9E75;box-shadow:0 0 0 2px #E1F5EE}
+label{font-size:13px;color:var(--text-secondary);display:block;margin-bottom:5px}
+h1{font-size:22px;font-weight:500}
+h2{font-size:18px;font-weight:500;margin-bottom:1rem}
+h3{font-size:16px;font-weight:500}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;background:var(--surface-2);border-bottom:0.5px solid var(--border)}
+.logo{font-size:18px;font-weight:500;color:#1D9E75;display:flex;align-items:center;gap:8px}
+.nav-links{display:flex;gap:8px}
+.progress-bar{height:5px;background:#E1F5EE;border-radius:3px;overflow:hidden;margin-bottom:1.5rem}
+.progress-fill{height:100%;background:#1D9E75;border-radius:3px;transition:width .4s}
+.opt-btn{width:100%;text-align:left;padding:14px 16px;border:1.5px solid var(--border-strong);border-radius:10px;cursor:pointer;font-size:14px;background:var(--surface-2);color:var(--text-primary);display:flex;align-items:center;gap:12px;transition:all .15s;margin-bottom:10px}
+.opt-btn:hover{border-color:#1D9E75;background:#E1F5EE}
+.opt-btn.selected{border-color:#1D9E75;background:#1D9E75;color:#fff}
+.opt-btn.selected .opt-label{background:#fff;color:#1D9E75}
+.opt-btn.correct{border-color:#0F6E56;background:#E1F5EE}
+.opt-btn.wrong{border-color:#A32D2D;background:#FCEBEB}
+.opt-label{width:26px;height:26px;border-radius:50%;background:#E1F5EE;color:#0F6E56;font-size:12px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.selected .opt-label{background:#fff;color:#1D9E75}
+.correct .opt-label{background:#0F6E56;color:#fff}
+.wrong .opt-label{background:#A32D2D;color:#fff}
+.quiz-card{background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:12px;cursor:pointer;transition:all .15s}
+.quiz-card:hover{border-color:#1D9E75;transform:translateY(-1px)}
+.badge{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;background:#E1F5EE;color:#0F6E56;font-weight:500}
+.score-circle{width:110px;height:110px;border-radius:50%;background:#E1F5EE;border:4px solid #1D9E75;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
+.score-num{font-size:28px;font-weight:500;color:#0F6E56}
+.score-den{font-size:13px;color:#0F6E56}
+.q-builder{background:var(--surface-1);border:0.5px solid var(--border);border-radius:10px;padding:1rem;margin-bottom:12px}
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.del-btn{background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:16px;padding:2px 6px}
+.del-btn:hover{color:#E24B4A}
+.opt-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.opt-row input[type=radio]{accent-color:#1D9E75}
+.opt-row .input{flex:1}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:99px;font-size:12px;background:var(--bg-success, #EAF3DE);color:#3B6D11}
+.home-hero{text-align:center;padding:3rem 1rem 2rem}
+.hero-icon{width:64px;height:64px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:28px}
+.auth-form{max-width:380px;margin:2rem auto}
+.tabs{display:flex;gap:0;border-bottom:1.5px solid var(--border);margin-bottom:1.5rem}
+.tab{padding:10px 20px;cursor:pointer;font-size:14px;color:var(--text-secondary);border-bottom:2px solid transparent;margin-bottom:-1.5px}
+.tab.active{color:#1D9E75;border-bottom-color:#1D9E75;font-weight:500}
+.stat{text-align:center;padding:.75rem}
+.stat-n{font-size:22px;font-weight:500;color:#0F6E56}
+.stat-l{font-size:12px;color:var(--text-secondary);margin-top:2px}
+.alert{padding:10px 14px;border-radius:var(--radius);font-size:13px;margin-bottom:12px}
+.alert-err{background:#FCEBEB;color:#A32D2D;border:0.5px solid #F09595}
+.alert-ok{background:#E1F5EE;color:#0F6E56;border:0.5px solid #5DCAA5}
+</style>
+
+<div class="app">
+<nav class="nav">
+  <div class="logo"><i class="ti ti-brain" aria-hidden="true"></i> QuizMate</div>
+  <div class="nav-links">
+    <button class="btn-ghost" onclick="showPage('home')"><i class="ti ti-home" aria-hidden="true"></i></button>
+    <button class="btn-ghost" onclick="showPage('list')">Browse quizzes</button>
+    <button class="btn-ghost" id="authBtn" onclick="showPage('auth')">Log in</button>
+    <button class="btn-ghost" id="createNavBtn" onclick="showPage('create')" style="display:none">Create quiz</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <div class="home-hero">
+    <div class="hero-icon"><i class="ti ti-brain" style="color:#1D9E75" aria-hidden="true"></i></div>
+    <h1 style="margin-bottom:.5rem">Create and take quizzes — fast</h1>
+    <p style="color:var(--text-secondary);margin-bottom:1.5rem">Build your own quizzes or explore ones made by others</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn-teal" onclick="handleCreate()"><i class="ti ti-plus" aria-hidden="true"></i> Create a quiz</button>
+      <button class="btn-outline" onclick="showPage('list')"><i class="ti ti-list" aria-hidden="true"></i> Browse quizzes</button>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;max-width:480px;margin:0 auto">
+    <div class="card" style="text-align:center"><div class="stat-n" id="statTotal">0</div><div class="stat-l">quizzes created</div></div>
+    <div class="card" style="text-align:center"><div class="stat-n" id="statQ">0</div><div class="stat-l">questions total</div></div>
+    <div class="card" style="text-align:center"><div class="stat-n" id="statAttempts">0</div><div class="stat-l">attempts taken</div></div>
+  </div>
+</div>
+
+<!-- AUTH -->
+<div id="page-auth" class="page">
+  <div class="auth-form">
+    <div class="tabs">
+      <div class="tab active" id="tabLogin" onclick="switchTab('login')">Log in</div>
+      <div class="tab" id="tabReg" onclick="switchTab('reg')">Register</div>
+    </div>
+    <div id="authAlert" style="display:none"></div>
+    <div id="loginForm">
+      <div style="margin-bottom:14px"><label>Email</label><input class="input" id="loginEmail" type="email" placeholder="you@example.com"></div>
+      <div style="margin-bottom:18px"><label>Password</label><input class="input" id="loginPass" type="password" placeholder="••••••••"></div>
+      <button class="btn-teal" style="width:100%" onclick="doLogin()">Log in</button>
+    </div>
+    <div id="regForm" style="display:none">
+      <div style="margin-bottom:14px"><label>Name</label><input class="input" id="regName" placeholder="Your name"></div>
+      <div style="margin-bottom:14px"><label>Email</label><input class="input" id="regEmail" type="email" placeholder="you@example.com"></div>
+      <div style="margin-bottom:18px"><label>Password</label><input class="input" id="regPass" type="password" placeholder="min 6 chars"></div>
+      <button class="btn-teal" style="width:100%" onclick="doRegister()">Create account</button>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE QUIZ -->
+<div id="page-create" class="page">
+  <h2>New quiz</h2>
+  <div id="createAlert" style="display:none"></div>
+  <div style="display:grid;gap:14px;margin-bottom:1.5rem">
+    <div><label>Quiz title</label><input class="input" id="qTitle" placeholder="e.g. General Knowledge Challenge"></div>
+    <div><label>Description (optional)</label><input class="input" id="qDesc" placeholder="What is this quiz about?"></div>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+    <h3>Questions</h3>
+    <button class="btn-outline" onclick="addQuestion()"><i class="ti ti-plus" aria-hidden="true"></i> Add question</button>
+  </div>
+  <div id="questionsContainer"></div>
+  <button class="btn-teal" style="margin-top:1rem;width:100%" onclick="saveQuiz()"><i class="ti ti-device-floppy" aria-hidden="true"></i> Save quiz</button>
+</div>
+
+<!-- QUIZ LIST -->
+<div id="page-list" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+    <h2 style="margin:0">Browse quizzes</h2>
+    <button class="btn-teal" onclick="handleCreate()"><i class="ti ti-plus" aria-hidden="true"></i> Create</button>
+  </div>
+  <div id="quizList"></div>
+</div>
+
+<!-- TAKE QUIZ -->
+<div id="page-take" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+    <span style="font-size:13px;color:var(--text-secondary)" id="qCounter"></span>
+    <span style="font-size:13px;font-weight:500;color:#1D9E75" id="qTitle2"></span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="qProgress" style="width:0%"></div></div>
+  <p style="font-size:15px;font-weight:500;margin-bottom:1.25rem" id="qText"></p>
+  <div id="optionsContainer"></div>
+  <div style="display:flex;justify-content:space-between;margin-top:1.25rem">
+    <button class="btn-ghost" onclick="skipQ()">Skip</button>
+    <button class="btn-teal" id="nextBtn" onclick="nextQ()" style="display:none">Next <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="page-results" class="page" style="text-align:center">
+  <h2>Results</h2>
+  <div class="score-circle"><div class="score-num" id="scoreNum"></div><div class="score-den" id="scoreDen"></div></div>
+  <p style="font-size:15px;font-weight:500;margin-bottom:.25rem" id="scoreMsg"></p>
+  <p style="font-size:13px;color:var(--text-secondary);margin-bottom:1.5rem" id="scorePercent"></p>
+  <div id="reviewContainer" style="text-align:left;max-width:520px;margin:0 auto 1.5rem"></div>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <button class="btn-outline" onclick="retakeQuiz()">Retake quiz</button>
+    <button class="btn-teal" onclick="showPage('list')">Browse more</button>
+  </div>
+</div>
+</div>
+
+<script>
+let state={users:[],currentUser:null,quizzes:[],currentQuiz:null,currentQ:0,answers:[],attempts:0};
+
+function $(id){return document.getElementById(id)}
+function showPage(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  $('page-'+p).classList.add('active');
+  if(p==='list')renderList();
+  if(p==='home')updateStats();
+}
+function updateStats(){
+  $('statTotal').textContent=state.quizzes.length;
+  $('statQ').textContent=state.quizzes.reduce((a,q)=>a+q.questions.length,0);
+  $('statAttempts').textContent=state.attempts;
+}
+function handleCreate(){
+  if(!state.currentUser){showPage('auth');showAlert('createAlert','',false);showAlert('authAlert','Log in or register to create a quiz','err');return;}
+  resetCreate();showPage('create');
+}
+function switchTab(t){
+  $('loginForm').style.display=t==='login'?'block':'none';
+  $('regForm').style.display=t==='reg'?'block':'none';
+  $('tabLogin').className='tab'+(t==='login'?' active':'');
+  $('tabReg').className='tab'+(t==='reg'?' active':'');
+  $('authAlert').style.display='none';
+}
+function showAlert(id,msg,type){
+  const el=$(id);
+  if(!msg){el.style.display='none';return;}
+  el.className='alert alert-'+(type==='err'?'err':'ok');
+  el.textContent=msg;el.style.display='block';
+}
+function doLogin(){
+  const email=$('loginEmail').value.trim(),pass=$('loginPass').value;
+  const u=state.users.find(u=>u.email===email&&u.pass===pass);
+  if(!u){showAlert('authAlert','Incorrect email or password','err');return;}
+  setUser(u);showAlert('authAlert','',false);showPage('home');
+}
+function doRegister(){
+  const name=$('regName').value.trim(),email=$('regEmail').value.trim(),pass=$('regPass').value;
+  if(!name||!email||!pass){showAlert('authAlert','Fill in all fields','err');return;}
+  if(pass.length<6){showAlert('authAlert','Password must be at least 6 characters','err');return;}
+  if(state.users.find(u=>u.email===email)){showAlert('authAlert','That email is already registered','err');return;}
+  const u={id:Date.now(),name,email,pass};
+  state.users.push(u);setUser(u);showAlert('authAlert','',false);showPage('home');
+}
+function setUser(u){
+  state.currentUser=u;
+  $('authBtn').textContent=u.name;
+  $('authBtn').onclick=()=>{state.currentUser=null;$('authBtn').textContent='Log in';$('authBtn').onclick=()=>showPage('auth');$('createNavBtn').style.display='none';showPage('home');};
+  $('createNavBtn').style.display='';
+}
+
+let qCount=0;
+function resetCreate(){
+  $('qTitle').value='';$('qDesc').value='';
+  $('questionsContainer').innerHTML='';qCount=0;
+  showAlert('createAlert','',false);addQuestion();
+}
+function addQuestion(){
+  qCount++;const id='q'+qCount;
+  const div=document.createElement('div');div.className='q-builder';div.id=id;
+  div.innerHTML=`<div class="q-header"><h3 style="font-size:14px">Question ${qCount}</h3><button class="del-btn" onclick="removeQ('${id}')" title="Remove"><i class="ti ti-trash" aria-hidden="true"></i></button></div>
+  <div style="margin-bottom:10px"><label>Question text</label><input class="input" placeholder="Enter your question..." id="${id}_text"></div>
+  <div style="margin-bottom:8px"><label>Options (select the correct answer)</label>
+  ${['A','B','C','D'].map(l=>`<div class="opt-row"><input type="radio" name="${id}_ans" value="${l}" id="${id}_r${l}"><label for="${id}_r${l}" style="display:flex;align-items:center;gap:8px;margin:0;color:var(--text-primary);width:100%"><span style="min-width:18px;font-size:12px;color:#1D9E75;font-weight:500">${l}</span><input class="input" placeholder="Option ${l}" id="${id}_opt${l}"></label></div>`).join('')}
+  </div>`;
+  $('questionsContainer').appendChild(div);
+}
+function removeQ(id){const el=$(id);if(el)el.remove();}
+function saveQuiz(){
+  const title=$('qTitle').value.trim();
+  if(!title){showAlert('createAlert','Give your quiz a title','err');return;}
+  const qs=[];
+  $('questionsContainer').querySelectorAll('.q-builder').forEach(qDiv=>{
+    const id=qDiv.id;
+    const text=$(id+'_text').value.trim();
+    const opts=['A','B','C','D'].map(l=>({label:l,text:$(id+'_opt'+l).value.trim()})).filter(o=>o.text);
+    const ans=qDiv.querySelector('input[name="'+id+'_ans"]:checked');
+    if(text&&opts.length>=2&&ans)qs.push({text,options:opts,answer:ans.value});
+  });
+  if(qs.length===0){showAlert('createAlert','Add at least one complete question with options and a correct answer selected','err');return;}
+  state.quizzes.push({id:Date.now(),title,desc:$('qDesc').value.trim(),author:state.currentUser.name,questions:qs,created:new Date().toLocaleDateString()});
+  showAlert('createAlert','Quiz saved!','ok');
+  setTimeout(()=>showPage('list'),800);
+}
+
+function renderList(){
+  const c=$('quizList');
+  if(state.quizzes.length===0){c.innerHTML='<p style="color:var(--text-secondary);text-align:center;padding:2rem">No quizzes yet. Create the first one!</p>';return;}
+  c.innerHTML=state.quizzes.map((q,i)=>`<div class="quiz-card" onclick="startQuiz(${i})">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <h3>${q.title}</h3><span class="badge">${q.questions.length}Q</span>
+    </div>
+    ${q.desc?`<p style="font-size:13px;color:var(--text-secondary);margin:.25rem 0">${q.desc}</p>`:''}
+    <div style="margin-top:.5rem;display:flex;gap:12px;font-size:12px;color:var(--text-muted)">
+      <span><i class="ti ti-user" aria-hidden="true"></i> ${q.author}</span>
+      <span><i class="ti ti-calendar" aria-hidden="true"></i> ${q.created}</span>
+    </div>
+  </div>`).join('');
+}
+
+function startQuiz(idx){
+  state.currentQuiz=state.quizzes[idx];
+  state.currentQ=0;state.answers=[];
+  showPage('take');renderQuestion();
+}
+function renderQuestion(){
+  const quiz=state.currentQuiz,qi=state.currentQ,q=quiz.questions[qi];
+  const total=quiz.questions.length;
+  $('qCounter').textContent=`Question ${qi+1} of ${total}`;
+  $('qTitle2').textContent=quiz.title;
+  $('qProgress').style.width=Math.round((qi/total)*100)+'%';
+  $('qText').textContent=q.text;
+  $('nextBtn').style.display='none';
+  $('optionsContainer').innerHTML=q.options.map((o,i)=>`<button class="opt-btn" id="opt${i}" onclick="selectOpt(${i},'${o.label}')"><span class="opt-label">${o.label}</span>${o.text}</button>`).join('');
+}
+function selectOpt(i,label){
+  const quiz=state.currentQuiz,q=quiz.questions[state.currentQ];
+  document.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('selected'));
+  $('opt'+i).classList.add('selected');
+  state.answers[state.currentQ]={selected:label,correct:q.answer};
+  $('nextBtn').style.display='';
+}
+function skipQ(){state.answers[state.currentQ]={selected:null,correct:state.currentQuiz.questions[state.currentQ].answer};advanceQ();}
+function nextQ(){advanceQ();}
+function advanceQ(){
+  const total=state.currentQuiz.questions.length;
+  if(state.currentQ+1<total){state.currentQ++;renderQuestion();}
+  else showResults();
+}
+function showResults(){
+  state.attempts++;
+  const ans=state.answers,qs=state.currentQuiz.questions;
+  const score=ans.filter(a=>a&&a.selected===a.correct).length;
+  const total=qs.length;
+  const pct=Math.round((score/total)*100);
+  $('scoreNum').textContent=score;
+  $('scoreDen').textContent='/'+total;
+  $('scoreMsg').textContent=pct>=80?'Excellent work!':pct>=50?'Good effort!':'Keep practicing!';
+  $('scorePercent').textContent=pct+'% correct';
+  const rev=$('reviewContainer');
+  rev.innerHTML=qs.map((q,i)=>{
+    const a=ans[i]||{selected:null,correct:q.answer};
+    const ok=a.selected===a.correct;
+    return `<div class="card" style="margin-bottom:10px;border-left:3px solid ${ok?'#1D9E75':'#E24B4A'}">
+      <p style="font-size:13px;font-weight:500;margin-bottom:.5rem">${q.text}</p>
+      <p style="font-size:12px;color:${ok?'#0F6E56':'#A32D2D'}">${ok?'✓ Correct':'✗ '+(a.selected?'You chose '+a.selected+' — ':'No answer — ')+'Correct: '+a.correct}</p>
+    </div>`;
+  }).join('');
+  showPage('results');
+}
+function retakeQuiz(){startQuiz(state.quizzes.indexOf(state.currentQuiz));}
+
+addQuestion();updateStats();
+
+const sample={id:1,title:'General Knowledge',desc:'Test your everyday trivia!',author:'Demo',created:new Date().toLocaleDateString(),
+questions:[
+  {text:'What is the capital of France?',options:[{label:'A',text:'Berlin'},{label:'B',text:'Paris'},{label:'C',text:'Madrid'},{label:'D',text:'Rome'}],answer:'B'},
+  {text:'How many sides does a hexagon have?',options:[{label:'A',text:'5'},{label:'B',text:'6'},{label:'C',text:'7'},{label:'D',text:'8'}],answer:'B'},
+  {text:'Which planet is closest to the Sun?',options:[{label:'A',text:'Venus'},{label:'B',text:'Earth'},{label:'C',text:'Mercury'},{label:'D',text:'Mars'}],answer:'C'},
+]};
+state.quizzes.push(sample);updateStats();
+</script>
